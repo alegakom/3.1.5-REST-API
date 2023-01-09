@@ -66,6 +66,5 @@ async function editAdmin() {
 
     await fetch(changeAdminPassword,method).then(() => {
         $('#CloseBtn').click();
-        getAdmin();
     })
 }

@@ -36,10 +36,9 @@ function  getListOfUsers(users) {
         data-toggle="modal" data-target="#editModal" onclick="editAdminModalData(${user.id})">Edit</button></p>
     </td>
 <!--    DELETE-->
-    <td>
-        <form method="POST">
-            <p><button class="btn btn-danger" th:formaction="${'/api/admin/delete/' + user.id}">Delete</button></p>
-        </form>
+        <td>
+        <button type="button" class="btn btn-danger" data-bs-toogle="modal"
+        data-bs-target="#deleteModal" onclick="deleteModalData(${user.id})">Delete</button>
     </td>
 </tr>`
 

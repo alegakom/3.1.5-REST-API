@@ -6,6 +6,7 @@ const lastname_ed = document.getElementById('lastname_ed');
 const age_ed = document.getElementById('age_ed');
 const username_ed = document.getElementById('username_ed');
 const password_ed = document.getElementById('password_ed');
+const roles_ed = document.getElementById('rolesForEditing');
 
 async function editAdminModalData(id) {
     $('#editModal').modal('show');
@@ -43,7 +44,7 @@ async function editUser() {
             age: age_ed.value,
             lastname: lastname_ed.value,
             username: username_ed.value,
-            // roles: roles_ed.value,
+            roles: roles_ed.value,
             password: password_ed.value,
         })
 

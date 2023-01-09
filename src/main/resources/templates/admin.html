@@ -109,15 +109,13 @@
                                                             <input name="password" th:type="text" class="form-control" id="password_ed"/>
                                                         </div>
 
-                                                        <label class="row font-weight-bold justify-content-center" for="rolesForEditing">Role</label>
-                                                        <select multiple class="form-control" size="2"  id="rolesForEditing" name="rolesForEditing">
-                                                            <option id="roleUser" value="USER">USER</option>
-                                                            <option id="roleAdmin" value="ADMIN">ADMIN</option>
-                                                        </select>
+                                                        <label for="rolesForEditing" th:each="role: ${user.rolesForWeb}">
+                                                            <input id="rolesForEditing" th:data-th-text="${role}" name="roles" type="radio" th:value="${role}" required>
+                                                        </label>
 
                                                         <div class="modal-footer">
                                                             <button class="btn-close; btn btn-danger" data-dismiss="modal" aria-label="close">Close</button>
-                                                            <button type="submit" th:formaction="${'/api/admin/update/'+ user.id}" class="btn btn-warning">Edit</button>
+                                                            <button type="submit" onclick="editUser()" class="btn btn-warning">Edit</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -137,7 +135,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col text-center" style="background: white">
                                                 <p></p>
-                                                <form method="POST" action="/api/admin/save">
+                                                <form id="formForNewUser">
                                                     <p>Enter user:</p>
                                                     <p><label for="name"></label><input type="text" name="name" value="" pattern="^[a-zA-Z]+$" id="name" placeholder="Name" required></p>
                                                     <p><label for="lastname"></label><input type="text" name="lastname" value="" pattern="^[a-zA-Z]+$" id="lastname" placeholder="Lastname" required></p>
@@ -147,7 +145,7 @@
                                                     <label for="roles" th:each="role: ${userRoles}">
                                                         <input id="roles" th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
                                                     </label>
-                                                    <p><input type="submit" value="Submit"></p>
+                                                    <p><input type="submit" value="Submit" form="formForNewUser" onclick="addNewUser()"></p>
                                                 </form>
                                             </div>
                                         </div>
@@ -214,9 +212,68 @@
     </div>
 </div>
 
+<div class="modal fade"  id ="deleteModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenteredLabelDelete">Delete user</h5>
+                <span class="btn-close" data-bs-dismiss="modal"
+                      aria-label="Close"></span>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Начало Тело Модальной-->
+                <form id="formForDeleting">
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="id_del">ID </label>
+                        <input name="id" th:type="text" class="form-control"  id="id_del" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="name_del">Name </label>
+                        <input name="name" th:type="text" class="form-control"  id="name_del" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="lastname_del">Last name</label>
+                        <input name="lastname" th:type="text" class="form-control" id="lastname_del" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="age_del">Age</label>
+                        <input name="age" th:type="number" class="form-control" id="age_del" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="username_del">Username</label>
+                        <input name="email" th:type="text" class="form-control"  id="username_del" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="password_del">Password</label>
+                        <input name="password" th:type="text" class="form-control" id="password_del" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="row font-weight-bold justify-content-center" for="rolesDelete">Roles</label>
+                        <input name="password" th:type="text" class="form-control" id="rolesDelete" readonly/>
+                    </div>
+
+                    <!--  Конец тела окна-->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="deleteCloseBtn"
+                        >Close</button>
+                        <button type="submit" class="btn btn-primary" id="deleteBtn"
+                                onclick="deleteUser(); getAllUsers()">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/js/admin.js"></script>
 <script src="/js/adminUser.js"></script>
-<script src="/js/EditUsers.js"></script>
+<script src="/js/editUsers.js"></script>
+<script src="/js/saveUser.js"></script>
+<script src="/js/deleteUser.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

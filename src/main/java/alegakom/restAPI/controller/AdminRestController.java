@@ -66,25 +66,20 @@ public class AdminRestController {
 
 
 
-    @PostMapping(value = "/admin/save")
-    public String saveUser(@RequestParam(value = "name") String name,
-                           @RequestParam(value = "lastname") String lastname,
-                           @RequestParam(value = "age")  int age,
-                           @RequestParam(value = "username") String username,
-                           @RequestParam(value = "password") String password,
-                           @RequestParam(value = "roles") String role) {
-        String encodedPassword = userService.encode(password);
-        User user = new User(name, lastname, age, username, encodedPassword);
-        user.setUserRole(userService.getRoleByName(role));
+    @PostMapping("/newUser")
+    public ResponseEntity<HttpStatus> saveNewUser(@RequestBody User user) {
+        user.setPassword(userService.encode(user.getPassword()));
         userService.saveUser(user);
-        return "redirect:/admin";
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 
-    @PostMapping("/admin/delete/{userId}")
-    public String delete(@PathVariable("userId") long id) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
-        return "redirect:/admin";
+        return new ResponseEntity<> (HttpStatus.OK);
     }
+
+
 
 
 }

@@ -37,7 +37,6 @@ async function editUser() {
             password: password_ed.value,
 
         })
-
     }
 
     await fetch(changePassword,method).then(() => {

@@ -5,8 +5,8 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -27,7 +27,7 @@ public class Role implements GrantedAuthority {
             joinColumns = @JoinColumn(name = "roles_id"),
             inverseJoinColumns = @JoinColumn(name = "users_id")
     )
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 
 
     public Role(String role) {
@@ -39,10 +39,7 @@ public class Role implements GrantedAuthority {
     }
 
     public void addRoleToUser (User user) {
-        if (users == null) {
-            users = new ArrayList<>();
             users.add(user);
-        }
     }
 
 

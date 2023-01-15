@@ -1,4 +1,4 @@
-const form_del = document.getElementById('formForDeleting');
+
 const id_del = document.getElementById('id_del');
 const name_del = document.getElementById('name_del');
 const lastname_del = document.getElementById('lastname_del');
@@ -9,7 +9,7 @@ const password_del = document.getElementById('password_del');
 
 async function deleteModalData(id) {
     $('#deleteModal').modal('show');
-    const  urlForDel = 'api/users/' + id;
+    const  urlForDel = '/api/users/' + id;
     let usersPageDel = await fetch(urlForDel);
     if (usersPageDel.ok) {
         let userData =
@@ -28,7 +28,7 @@ async function deleteModalData(id) {
 async function deleteUser() {
 
         event.preventDefault();
-        let urlDel = 'api/users/' + id_del.value;
+        let urlDel = '/api/users/' + id_del.value;
         let method = {
             method: 'DELETE',
             headers: {

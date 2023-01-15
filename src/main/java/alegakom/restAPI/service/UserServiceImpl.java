@@ -1,7 +1,6 @@
 package alegakom.restAPI.service;
 
 import alegakom.restAPI.dao.UserDao;
-import alegakom.restAPI.model.Role;
 import alegakom.restAPI.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,23 +54,5 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUsername(username);
     }
 
-    @Override
-    public String encode(CharSequence password) {
-        return userDao.encode(password);
-    }
 
-    @Override
-    public List<Role> getAllRoles() {
-        return userDao.getAllRoles();
-    }
-
-    @Override
-    public Role getRoleByName(String role) {
-        return userDao.getRoleByName(role);
-    }
-
-    @Override
-    public User getPrincipalUser() {
-        return userDao.getPrincipalUser();
-    }
 }

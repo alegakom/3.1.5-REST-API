@@ -1,6 +1,4 @@
 
-
-const form_ed = document.getElementById('changePassword');
 const password_ed = document.getElementById('password_ed');
 const userUrl = '/api/getUser';
 const changePassword = '/api/changePassword';
@@ -10,9 +8,7 @@ async function editModalData() {
     let usersPageEd = await fetch(userUrl);
     if (usersPageEd.ok) {
         let userData =
-            await usersPageEd.json().then(user => {
-                password_ed.value = `${user.password}`;
-            })
+            await usersPageEd.json();
     } else {
         alert(`Error, ${usersPageEd.status}`)
     }                  // ИСПОЛЬЗОВАТЬ ДЛЯ ЗАПОЛНЕНИЕ МОДАЛЬНЫЪ ОКОН

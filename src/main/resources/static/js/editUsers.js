@@ -1,36 +1,37 @@
 
 
-const id_ed = document.getElementById('id_ed');
-const name_ed = document.getElementById('name_ed');
-const lastname_ed = document.getElementById('lastname_ed');
-const age_ed = document.getElementById('age_ed');
-const username_ed = document.getElementById('username_ed');
-const password_ed = document.getElementById('password_ed');
-const roles_ed = document.getElementById('rolesForEditing');
+const id_ed1 = document.getElementById('id_ed');
+const name_ed1 = document.getElementById('name_ed');
+const lastname_ed1 = document.getElementById('lastname_ed');
+const age_ed1 = document.getElementById('age_ed');
+const username_ed1 = document.getElementById('username_ed');
+const password_ed1 = document.getElementById('password_ed');
+
+
+
 
 async function editAdminModalData(id) {
+    const urlDataEd = '/api/users/' + id;
     $('#editModal').modal('show');
-    const  urlDataEd = 'api/users/' + id;
     let usersPageEd = await fetch(urlDataEd);
     if (usersPageEd.ok) {
         let userData =
             await usersPageEd.json().then(user => {
-                id_ed.value = `${user.id}`;
-                name_ed.value = `${user.name}`;
-                lastname_ed.value = `${user.lastname}`;
-                age_ed.value = `${user.age}`;
-                username_ed.value = `${user.username}`;
-                password_ed.value = `${user.password}`;
+                id_ed1.value = `${user.id}`;
+                name_ed1.value = `${user.name}`;
+                lastname_ed1.value = `${user.lastname}`;
+                age_ed1.value = `${user.age}`;
+                username_ed1.value = `${user.username}`;
             })
     } else {
-        alert(`Error, ${usersPageEd.status}`)
+        alert(`Error here, ${usersPageEd.status}`)
     }
 }
 
 
 // ещё не доделал
-async function editUser() {
-    let usersPageEd = await fetch('/api/users/' + id_ed.value);
+async function editUsers() {
+    let usersPageEd = await fetch('/api/users/' + id_ed1.value);
     let userData =
         await usersPageEd.json();
     let method = {
@@ -39,18 +40,17 @@ async function editUser() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            id: id_ed.value,
-            name: name_ed.value,
-            age: age_ed.value,
-            lastname: lastname_ed.value,
-            username: username_ed.value,
-            roles: roles_ed.value,
-            password: password_ed.value,
+            id: id_ed1.value,
+            name: name_ed1.value,
+            age: age_ed1.value,
+            lastname: lastname_ed1.value,
+            username: username_ed1.value,
+            password: password_ed1.value,
         })
 
     }
-
-    await fetch(usersPageEd, method).then(() => {
+    const change = '/api/users/' + id_ed1.value
+    await fetch(change, method).then(() => {
         $('#editCloseBtn').click();
         getAllUsers();
     })

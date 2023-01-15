@@ -33,7 +33,7 @@ function  getListOfUsers(users) {
 <!--    EDIT-->
     <td>
         <p><button type="button" class="btn btn-primary" 
-        data-toggle="modal" data-target="#editModal" onclick="editAdminModalData(${user.id})">Edit</button></p>
+        data-toggle="modal" data-target="#editModal" onclick="editAdmin(${user.id})">Edit</button></p>
     </td>
 <!--    DELETE-->
         <td>

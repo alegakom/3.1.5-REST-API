@@ -40,6 +40,7 @@ function  getInformationAboutAdmin(user) {
 }
 getAdmin();
 
+
 async function editAdmin() {
     $('#passwordModal').modal('show');
     let usersPageEd = await fetch(adminUrl);

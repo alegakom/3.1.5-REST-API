@@ -1,11 +1,10 @@
 const form_new = document.getElementById('formForNewUser');
-// const role_new = document.querySelector('#roles').selectedOptions;
 
 
 
 
     async function addNewUser() {
-        const urlNew = 'api/newUser';
+        const urlNew = '/api/newUser';
         let method = {
             method: 'POST',
             headers: {

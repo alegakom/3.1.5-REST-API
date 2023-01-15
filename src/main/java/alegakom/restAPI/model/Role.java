@@ -1,6 +1,5 @@
 package alegakom.restAPI.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -19,14 +18,8 @@ public class Role implements GrantedAuthority {
     private Long id;
     private String role;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
     @Transient
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "roles_id"),
-            inverseJoinColumns = @JoinColumn(name = "users_id")
-    )
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
 

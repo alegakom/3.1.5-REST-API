@@ -1,8 +1,10 @@
 package alegakom.restAPI.controller;
 
 import alegakom.restAPI.model.Role;
-import alegakom.restAPI.service.UserService;
+import alegakom.restAPI.model.User;
+import alegakom.restAPI.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +16,19 @@ import java.util.List;
 @RequestMapping("/api")
 public class AdminController {
 
-    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService) {
-        this.userService = userService;
+    public AdminController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping(value = "/admin")
     public String adminPage(ModelMap model){
-        model.addAttribute("user", userService.getPrincipalUser());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
         List<Role> rolesList;
-        rolesList = userService.getAllRoles();
+        rolesList = roleService.getAllRoles();
         model.addAttribute("userRoles", rolesList);
         return "admin";
     }

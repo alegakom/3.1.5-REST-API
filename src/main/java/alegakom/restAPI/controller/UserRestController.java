@@ -5,6 +5,8 @@ import alegakom.restAPI.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,15 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserRestController(UserService userService) {
+    public UserRestController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/getUser")
     public ResponseEntity<User> getUser() {
-        User user = userService.getPrincipalUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -28,7 +32,7 @@ public class UserRestController {
 
     @PatchMapping("/changePassword")
     public ResponseEntity<HttpStatus> changePassword(@RequestBody User user) {
-        user.setPassword(userService.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return new ResponseEntity<> (HttpStatus.OK);
     }

@@ -1,6 +1,5 @@
 package alegakom.restAPI.service;
 
-import alegakom.restAPI.model.Role;
 import alegakom.restAPI.model.User;
 
 import java.util.List;
@@ -23,13 +22,4 @@ public interface UserService {
     User getUserById(long id);
 
 
-    String encode(CharSequence password);
-
-
-    List<Role> getAllRoles();
-
-    Role getRoleByName(String role);
-
-    
-    User getPrincipalUser();
 }

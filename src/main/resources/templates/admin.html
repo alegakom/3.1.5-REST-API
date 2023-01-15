@@ -78,12 +78,12 @@
                                         </table>
                                         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
-                                                <div class="modal-content" id="exampleModalLabel">
+                                                <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title"> Edit User</h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel"> Edit User</h5>
                                                         <button class="btn-close" data-dismiss="modal" aria-label="close">X</button>
                                                     </div>
-                                                    <form id="formForEditing" class="modal-body">
+                                                    <form id="formForEditing" class="modal-body" onclick="editUser()">
                                                         <div class="form-group" >
                                                             <p><label class="row font-weight-bold justify-content-center" for="id_ed">ID </label>
                                                             <input name="id" th:type="text" class="form-control"  id="id_ed" readonly/></p>
@@ -109,13 +109,13 @@
                                                             <input name="password" th:type="text" class="form-control" id="password_ed"/>
                                                         </div>
 
-                                                        <label for="rolesForEditing" th:each="role: ${user.rolesForWeb}">
-                                                            <input id="rolesForEditing" th:data-th-text="${role}" name="roles" type="radio" th:value="${role}" required>
+                                                        <label for="rolesForEditing" th:each="role: ${userRoles}">
+                                                            <input id="rolesForEditing" th:data-th-text="${role.role}" name="radio" type="radio" th:value="${role}">
                                                         </label>
 
                                                         <div class="modal-footer">
                                                             <button class="btn-close; btn btn-danger" data-dismiss="modal" aria-label="close">Close</button>
-                                                            <button type="submit" onclick="editUser()" class="btn btn-warning">Edit</button>
+                                                            <button type="submit" onclick="editUsers()" class="btn btn-warning">Edit</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -143,7 +143,7 @@
                                                     <p><label for="username"></label><input type="text" name="username" value="" pattern="^[a-zA-Z]+$" id="username" placeholder="Username" required></p>
                                                     <p><label for="password"></label><input type="text" name="password" value="" pattern="^[a-zA-Z0-9]+$" id="password" placeholder="Password" required></p>
                                                     <label for="roles" th:each="role: ${userRoles}">
-                                                        <input id="roles" th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
+                                                        <input id="roles" th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role}" required>
                                                     </label>
                                                     <p><input type="submit" value="Submit" form="formForNewUser" onclick="addNewUser()"></p>
                                                 </form>
@@ -197,14 +197,14 @@
             </div>
             <div class="modal-body">
                 <p>change password</p>
-                <form id="changePassword" onsubmit="editAdmin(); getAdmin()">
+                <form id="changePassword" onsubmit="editAdmin()">
                     <div class="form-group">
                         <label class="row font-weight-bold justify-content-center" for="passwordEdit">Password</label>
                         <input name="password" class="form-control" id="passwordEdit" required/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="editCloseBtn">Close</button>
-                        <button type="submit" class="btn btn-primary" onclick="editAdmin(); getAdmin()">Change</button>
+                        <button type="submit" class="btn btn-primary" onclick="editAdmin();">Change</button>
                     </div>
                 </form>
             </div>
@@ -245,14 +245,6 @@
                     <div class="form-group">
                         <label class="row font-weight-bold justify-content-center" for="username_del">Username</label>
                         <input name="username" th:type="text" class="form-control"  id="username_del" readonly/>
-                    </div>
-                    <div class="form-group">
-                        <label class="row font-weight-bold justify-content-center" for="password_del">Password</label>
-                        <input name="password" th:type="text" class="form-control" id="password_del" readonly/>
-                    </div>
-                    <div class="form-group">
-                        <label class="row font-weight-bold justify-content-center" for="rolesDelete">Roles</label>
-                        <input name="password" th:type="text" class="form-control" id="rolesDelete" readonly/>
                     </div>
 
                     <!--  Конец тела окна-->

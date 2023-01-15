@@ -1,11 +1,8 @@
 package alegakom.restAPI.dao;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+import alegakom.restAPI.model.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
-import alegakom.restAPI.configs.PasswordEncoderConfig;
-import alegakom.restAPI.model.Role;
-import alegakom.restAPI.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,14 +12,9 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private final PasswordEncoderConfig passwordEncoderConfig;
-
     @PersistenceContext
     private EntityManager entityManager;
 
-    public UserDaoImpl(PasswordEncoderConfig passwordEncoderConfig) {
-        this.passwordEncoderConfig = passwordEncoderConfig;
-    }
 
     @Override
     public List<User> getAllUsers() {
@@ -30,26 +22,6 @@ public class UserDaoImpl implements UserDao {
         return entityManager.createQuery(sql, User.class).getResultList();
     }
 
-    @Override
-    public List<Role> getAllRoles() {
-        String sql = "select r from Role r";
-        return entityManager.createQuery(sql, Role.class).getResultList();
-    }
-    @Override
-    public Role getRoleByName(String role) {
-        try {
-            TypedQuery<Role> query = entityManager.createQuery("SELECT r FROM Role r WHERE r.role = :role", Role.class);
-            return query.setParameter("role", role)
-                    .getSingleResult();
-        } catch (Exception e) {
-            throw new UsernameNotFoundException(String.format("Role '%s' not found", role));
-        }
-    }
-
-    @Override
-    public User getPrincipalUser() {
-        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
 
     @Override
     public void saveUser(User user) {
@@ -65,11 +37,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void updateUser(User user) {
         entityManager.merge(user);
-    }
-
-    @Override
-    public String encode(CharSequence password) {
-        return passwordEncoderConfig.passwordEncoder().encode(password);
     }
 
     @Override
